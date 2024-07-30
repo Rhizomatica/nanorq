@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 
   // determine chunks, symbol size, memory usage from size
   size_t packet_size = strtol(argv[2], NULL, 10); // T
-  uint8_t align = 8;
+  uint8_t align = 1;
 
   srand((unsigned int)time(0));
 
@@ -80,6 +80,7 @@ int main(int argc, char *argv[]) {
   }
 
   int num_sbn = nanorq_blocks(rq);
+  printf("sbn = %d\n", num_sbn);
   for (int b = 0; b < num_sbn; b++) {
     nanorq_generate_symbols(rq, b, myio);
   }
@@ -89,6 +90,11 @@ int main(int argc, char *argv[]) {
   FILE *oh = fopen("data.rq", "w+");
   fwrite(&oti_common, 1, sizeof(oti_common), oh);
   fwrite(&oti_scheme, 1, sizeof(oti_scheme), oh);
+
+
+  printf("size oti_common: %lu %lu\n", sizeof(oti_common), oti_common);
+  printf("size oti_scheme: %lu %u\n", sizeof(oti_scheme), oti_scheme);
+
   for (int sbn = 0; sbn < num_sbn; sbn++) {
     dump_block(rq, myio, oh, sbn);
   }

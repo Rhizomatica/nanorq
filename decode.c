@@ -38,6 +38,8 @@ int main(int argc, char *argv[]) {
   int num_sbn = nanorq_blocks(rq);
   uint32_t tag;
   size_t packet_size = nanorq_symbol_size(rq);
+  printf("packet size: %lu\n", packet_size);
+
   uint8_t packet[packet_size];
   while (fread(&tag, 1, sizeof(tag), ih)) {
     fread(packet, packet_size, 1, ih);
